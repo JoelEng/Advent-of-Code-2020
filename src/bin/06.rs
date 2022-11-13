@@ -1,4 +1,5 @@
-use std::collections::{HashMap, HashSet};
+use hashbrown::HashMap;
+use std::collections::HashSet;
 use std::iter::FromIterator;
 
 type Group = Vec<Vec<char>>;

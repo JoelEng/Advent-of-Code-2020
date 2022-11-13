@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use hashbrown::HashMap;
 
 const BAG: &str = "shiny gold";
 type ContentMap = HashMap<String, HashMap<String, u32>>;

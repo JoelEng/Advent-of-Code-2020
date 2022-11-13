@@ -26,9 +26,9 @@ fn main() {
                 break;
             }
         };
-        println!("\x1b[1mDay {}:\n\x1b[0m{}", day, output);
+        println!("\x1b[4;1mDay {}:\n\x1b[0m{}", day, output);
     }
-    print!("\x1b[1m\x1b[4m");
+    print!("\x1b[4;1m");
     if got_to == 25 {
         println!(
             "🎄 All days completed! 🎄 Total time: {}ms\x1b[0m",

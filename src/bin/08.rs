@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use hashbrown::HashSet;
 
 #[aoc::main(08)]
 fn main(input: &str) -> (i32, i32) {

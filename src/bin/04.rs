@@ -1,5 +1,5 @@
+use hashbrown::HashMap;
 use regex::Regex;
-use std::collections::HashMap;
 
 type Passport = HashMap<String, String>;
 const EYE_COLORS: [&str; 7] = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
