@@ -22,6 +22,10 @@ fn p1_check_passport(p: &Passport) -> bool {
 }
 
 fn p2_check_passport(p: &Passport) -> Option<bool> {
+    if p.len() != 7 {
+        return None;
+    }
+
     let byr = p.get("byr")?.parse::<i32>().ok()?;
     let iyr = p.get("iyr")?.parse::<i32>().ok()?;
     let eyr = p.get("eyr")?.parse::<i32>().ok()?;
@@ -30,7 +34,6 @@ fn p2_check_passport(p: &Passport) -> Option<bool> {
     let ecl = p.get("ecl")?.as_str();
     let pid = p.get("pid")?;
 
-    check_hgt(hgt)?;
     i32::from_str_radix(hcl, 16).ok()?;
     (byr >= 1910
         && byr <= 2002
@@ -39,7 +42,8 @@ fn p2_check_passport(p: &Passport) -> Option<bool> {
         && eyr >= 2020
         && eyr <= 2030
         && pid.len() == 9
-        && EYE_COLORS.contains(&ecl))
+        && EYE_COLORS.contains(&ecl)
+        && check_hgt(hgt)?)
     .then_some(true)
 }
 

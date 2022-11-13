@@ -30,7 +30,10 @@ fn main() {
     }
     print!("\x1b[1m\x1b[4m");
     if got_to == 25 {
-        println!("All days completed! Total time: {}ms\x1b[0m", total_time);
+        println!(
+            "🎄 All days completed! 🎄 Total time: {}ms\x1b[0m",
+            total_time
+        );
     } else {
         println!(
             "{} days completed. Total time: {}ms\x1b[0m",

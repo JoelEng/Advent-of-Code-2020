@@ -1,13 +1,33 @@
 use std::collections::HashSet;
 
 #[aoc::main(08)]
-fn main(input: &str) -> (i32, u32) {
-    let instrs = get_instr(input);
+fn main(input: &str) -> (i32, i32) {
+    let mut instrs = get_instr(input);
 
+    let (p1, _) = execute(&instrs);
+
+    for i in 0..instrs.len() {
+        let instr = &mut instrs[i].0;
+        let og = instr.clone();
+        *instr = match instr.as_str() {
+            "nop" => "jmp".to_string(),
+            "jmp" => "nop".to_string(),
+            _ => continue,
+        };
+        let (p2, completed) = execute(&instrs);
+        if completed {
+            return (p1, p2);
+        }
+        instrs[i].0 = og;
+    }
+    (p1, 0)
+}
+
+fn execute(instrs: &Vec<(String, i32)>) -> (i32, bool) {
     let mut executed: HashSet<i32> = HashSet::new();
     let mut next = 0;
-    let mut p1 = 0;
-    while !executed.contains(&next) {
+    let mut acc = 0;
+    while !executed.contains(&next) && next < instrs.len().try_into().unwrap() {
         executed.insert(next);
 
         let (instr, arg) = &instrs[(next as usize)];
@@ -15,14 +35,13 @@ fn main(input: &str) -> (i32, u32) {
             "jmp" => next += arg,
             "nop" => next += 1,
             "acc" => {
-                p1 += arg;
+                acc += arg;
                 next += 1;
             }
             _ => panic!("Incorrect instruction"),
         }
     }
-
-    (p1, 0)
+    (acc, next == instrs.len().try_into().unwrap())
 }
 
 fn get_instr(input: &str) -> Vec<(String, i32)> {

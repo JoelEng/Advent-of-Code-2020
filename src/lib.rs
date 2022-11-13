@@ -36,7 +36,7 @@ pub fn main(args: TokenStream, input: TokenStream) -> TokenStream {
         } else {
           print!("\x1b[101m"); // red
         }
-        println!("Time: {}ms\x1b[0m", time)
+        println!("Time: {}ms\x1b[0m", time);
       }
     };
     TokenStream::from(tokens)
