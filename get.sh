@@ -21,3 +21,5 @@ fi
 URL="https://adventofcode.com/2020/day/$(("10#$1" + 0))/input"
 curl "$URL" --cookie "session=$AOC_SESSION" -s | tee "$SCRIPT_DIR/inputs/$1.in"
 touch "input_examples/$1.in"
+cp "src/template.rs" "src/bin/$1.rs"
+sed -i "s/xx/$1/g" "src/bin/$1.rs"
