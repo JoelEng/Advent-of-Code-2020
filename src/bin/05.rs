@@ -1,12 +1,13 @@
 use std::cmp;
-use std::fs;
 
-const INPUT_FILE: &str = "input.txt";
+#[aoc::main(05)]
+fn main(input: &str) -> (i32, i32) {
+    let input: Vec<Vec<char>> = input
+        .split_whitespace()
+        .map(|r| r.chars().collect())
+        .collect();
 
-fn main() {
-    let input = get_input();
-
-    let mut highest = 0;
+    let mut p1 = 0;
     let mut all_ids: Vec<i32> = vec![];
     for v in input {
         let (row, col) = v.split_at(7);
@@ -14,15 +15,18 @@ fn main() {
         let col_seat = bin_search(col.to_vec(), 8);
         let seat_id = row_seat * 8 + col_seat;
         all_ids.push(seat_id);
-        highest = cmp::max(highest, seat_id);
+        p1 = cmp::max(p1, seat_id);
     }
-    println!("Part 1: {}", highest);
 
+    let mut p2 = 0;
     for i in 0..1032 {
         if !all_ids.contains(&i) && all_ids.contains(&(i + 1)) && all_ids.contains(&(i - 1)) {
-            println!("Part 2: {}", i);
+            p2 = i;
+            break;
         }
     }
+
+    (p1, p2)
 }
 
 fn bin_search(v: Vec<char>, length: i32) -> i32 {
@@ -37,12 +41,4 @@ fn bin_search(v: Vec<char>, length: i32) -> i32 {
         }
     }
     from
-}
-
-fn get_input() -> Vec<Vec<char>> {
-    let input = fs::read_to_string(INPUT_FILE).expect("Failed to read file");
-    input
-        .split_whitespace()
-        .map(|r| r.chars().collect())
-        .collect()
 }

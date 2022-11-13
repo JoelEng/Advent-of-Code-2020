@@ -1,22 +1,20 @@
 use std::collections::{HashMap, HashSet};
-use std::fs;
 use std::iter::FromIterator;
 
-const INPUT_FILE: &str = "input.txt";
 type Group = Vec<Vec<char>>;
 
-fn main() {
-    let groups = get_input();
+#[aoc::main(06)]
+fn main(input: &str) -> (usize, usize) {
+    let groups = get_groups(input);
 
-    let mut sum_one = 0;
+    let mut p1 = 0;
     for group in &groups {
         let ans: Vec<&char> = group.iter().flatten().collect();
         let set: HashSet<&char> = HashSet::from_iter(ans);
-        sum_one += set.len();
+        p1 += set.len();
     }
-    println!("Part 1: {}", sum_one);
 
-    let mut sum_two = 0;
+    let mut p2 = 0;
     for group in &groups {
         let group_size = group.len();
         let ans: Vec<&char> = group.iter().flatten().collect();
@@ -28,15 +26,14 @@ fn main() {
 
         for (_, n) in counts {
             if n == group_size {
-                sum_two += 1;
+                p2 += 1;
             }
         }
     }
-    println!("Part 2: {}", sum_two);
+    (p1, p2)
 }
 
-fn get_input() -> Vec<Group> {
-    let input = fs::read_to_string(INPUT_FILE).expect("Failed to read file");
+fn get_groups(input: &str) -> Vec<Group> {
     input
         .split("\n\n")
         .map(|group| {

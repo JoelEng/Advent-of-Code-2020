@@ -1,18 +1,27 @@
 use regex::Regex;
 use std::collections::HashMap;
-use std::fs;
 
-const INPUT_FILE: &str = "input.txt";
 type Passport = HashMap<String, String>;
 const EYE_COLORS: [&str; 7] = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
 
-fn main() {
-    let input = get_input();
-    let sum = input.iter().filter(|p| check_passport(p).is_some()).count();
-    println!("{}", sum);
+#[aoc::main(04)]
+fn main(input: &str) -> (usize, usize) {
+    let passports = get_passports(input);
+
+    let p1 = passports.iter().filter(|p| p1_check_passport(p)).count();
+    let p2 = passports
+        .iter()
+        .filter(|p| p2_check_passport(p).is_some())
+        .count();
+
+    (p1, p2)
 }
 
-fn check_passport(p: &Passport) -> Option<bool> {
+fn p1_check_passport(p: &Passport) -> bool {
+    p.len() == 7
+}
+
+fn p2_check_passport(p: &Passport) -> Option<bool> {
     let byr = p.get("byr")?.parse::<i32>().ok()?;
     let iyr = p.get("iyr")?.parse::<i32>().ok()?;
     let eyr = p.get("eyr")?.parse::<i32>().ok()?;
@@ -23,8 +32,7 @@ fn check_passport(p: &Passport) -> Option<bool> {
 
     check_hgt(hgt)?;
     i32::from_str_radix(hcl, 16).ok()?;
-    (p.len() >= 7
-        && byr >= 1910
+    (byr >= 1910
         && byr <= 2002
         && iyr >= 2010
         && iyr <= 2020
@@ -44,8 +52,7 @@ fn check_hgt(hgt: &str) -> Option<bool> {
     ((unit == "cm" && n >= 150 && n <= 193) || (unit == "in" && n >= 59 && n <= 76)).then_some(true)
 }
 
-fn get_input() -> Vec<Passport> {
-    let input = fs::read_to_string(INPUT_FILE).expect("Failed to read file");
+fn get_passports(input: &str) -> Vec<Passport> {
     let mut v: Vec<Passport> = vec![];
     for s in input.split("\n\n") {
         let mut map: HashMap<String, String> = HashMap::new();

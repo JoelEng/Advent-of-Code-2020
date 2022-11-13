@@ -1,24 +1,23 @@
 use std::collections::HashMap;
-use std::fs;
 
-const INPUT_FILE: &str = "input.txt";
 const BAG: &str = "shiny gold";
-type ContentMap = HashMap<String, HashMap<String, u128>>;
+type ContentMap = HashMap<String, HashMap<String, u32>>;
 
-fn main() {
-    let map = get_map();
+#[aoc::main(07)]
+fn main(input: &str) -> (usize, u32) {
+    let map = get_map(input);
 
-    let part_one = contents(BAG, &reverse_map(&map), 1);
-    println!("Part 1: {}", part_one.len());
+    let p1 = contents(BAG, &reverse_map(&map), 1);
 
-    let part_two = contents(BAG, &map, 1);
-    println!("Part 2: {}", part_two.values().sum::<u128>());
+    let p2 = contents(BAG, &map, 1);
+
+    (p1.len(), p2.values().sum::<u32>())
 }
 
 /**
  * Finds all connections from a node in a directed acyclic graph.
  */
-fn contents(id: &str, map: &ContentMap, mul: u128) -> HashMap<String, u128> {
+fn contents(id: &str, map: &ContentMap, mul: u32) -> HashMap<String, u32> {
     let mut a = HashMap::new();
     let bags = match map.get(id) {
         Some(x) => x,
@@ -52,9 +51,8 @@ fn reverse_map(map: &ContentMap) -> ContentMap {
  * "muted yellow": ["shiny gold": 2]
  * means that a muted yellow bag directly contains 2 shiny gold bags
  */
-fn get_map() -> ContentMap {
+fn get_map(input: &str) -> ContentMap {
     let mut contains: ContentMap = HashMap::new();
-    let input = fs::read_to_string(INPUT_FILE).expect("Failed to read file");
 
     for row in input.split("\n") {
         let mut split = row.split("bags contain");
@@ -70,7 +68,7 @@ fn get_map() -> ContentMap {
             }
 
             let (count, inner_bag) = b.split_once(" ").unwrap();
-            let count: u128 = count.parse().unwrap();
+            let count: u32 = count.parse().unwrap();
 
             inner_bags.entry(inner_bag.to_string()).or_insert(count);
         }
