@@ -21,7 +21,6 @@ fn main(input: &str) -> (i32, u32) {
             _ => panic!("Incorrect instruction"),
         }
     }
-    println!("{}", p1);
 
     (p1, 0)
 }

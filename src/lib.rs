@@ -4,9 +4,11 @@ use syn::{parse_macro_input, AttributeArgs, Ident, ItemFn, Lit, NestedMeta};
 
 #[proc_macro_attribute]
 pub fn main(args: TokenStream, input: TokenStream) -> TokenStream {
+    let mut example = false;
     let input_path = match &parse_macro_input!(args as AttributeArgs)[..] {
         [NestedMeta::Lit(Lit::Int(day))] => format!("../../inputs/{}.in", day.token().to_string()),
         [NestedMeta::Lit(Lit::Int(day)), NestedMeta::Lit(Lit::Int(_))] => {
+            example = true;
             format!("../../input_examples/{}.in", day.token().to_string())
         }
         _ => panic!("Expected one integer argument"),
@@ -24,7 +26,17 @@ pub fn main(args: TokenStream, input: TokenStream) -> TokenStream {
         let time = now.elapsed().as_millis();
         println!("Part one: {}", p1);
         println!("Part two: {}", p2);
-        println!("Time: {}ms", time);
+        if #example {
+          println!("\x1b[101mUSING EXAMPLE INPUT\x1b[0m");
+        }
+        if time <= 100 {
+          print!("\x1b[102m"); // green
+        } else if time <= 1000 {
+          print!("\x1b[103m"); // yellow
+        } else {
+          print!("\x1b[101m"); // red
+        }
+        println!("Time: {}ms\x1b[0m", time)
       }
     };
     TokenStream::from(tokens)

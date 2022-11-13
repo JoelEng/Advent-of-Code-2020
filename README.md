@@ -2,11 +2,14 @@
 
 My solutions for Advent of Code 2020.
 
-Project structure and setup kindly stolen from [AxlLind](https://github.com/AxlLind)
+Project structure and setup kindly stolen from [AxlLind](https://github.com/AxlLind).
 
 ## Usage
 
 ```sh
-cargo run --release --bin DAY # run a specific day
-cargo run --release           # run all days
+cargo run --release --bin <DAY> # run a specific day
+cargo run --release             # run all days
+
+./get.sh <DAY>                  # fetch input and create .rs file
+                                # input_examples/<DAY>.in has to be filled in manually
 ```
