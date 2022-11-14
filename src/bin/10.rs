@@ -1,7 +1,7 @@
 use itertools::Itertools;
 
 #[aoc::main(10)]
-fn main(input: &str) -> (i32, i32) {
+fn main(input: &str) -> (u32, usize) {
     let mut joltage: Vec<u32> = input.lines().map(|s| s.parse::<u32>().unwrap()).collect();
     joltage.push(0);
     joltage.sort();
@@ -13,12 +13,29 @@ fn main(input: &str) -> (i32, i32) {
         let diff = b - a;
         if diff == 1 {
             diff_1 += 1;
-        } else if diff == 3 {
-            diff_3 += 1;
+        } else {
+            diff_3 += 1; // There are no consecutive adapters with a diff of 2
         }
     }
 
-    joltage.pop(); // the device always has to connect to the last adapter, so this doesn't change the count
+    let mut prod: usize = 1;
+    let mut a = 0;
+    while a < joltage.len() - 1 {
+        let mut i = a;
+        while joltage[i + 1] - joltage[i] == 1 {
+            i += 1;
+        }
+        let size = i - a + 1;
+        if size > 2 {
+            // clusters of diff_1 with size > 2 is the only way to acheive more variations
+            let mut p = 1;
+            for n in 2..size {
+                p += n - 1;
+            }
+            prod *= p; // this is wrong
+        }
+        a = i + 1;
+    }
 
-    (diff_1 * diff_3, 0)
+    (diff_1 * diff_3, prod)
 }

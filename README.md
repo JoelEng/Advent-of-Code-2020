@@ -10,6 +10,6 @@ Project structure and setup kindly stolen from [AxlLind](https://github.com/AxlL
 cargo run --release --bin <DAY> # run a specific day
 cargo run --release             # run all days
 
-./get.sh <DAY>                  # fetch input and create .rs file
+./get <DAY>                     # fetch input and create .rs file
                                 # input_examples/<DAY>.in has to be filled in manually
 ```
