@@ -1,6 +1,6 @@
 const SUM_TO: i32 = 2020;
 
-// main(01) runs with actual input, main(01, 1) runs with example input
+// main(01) runs with actual input, main(01, 0) runs with example input
 #[aoc::main(01)]
 fn main(input: &str) -> (i32, i32) {
     let v = input
