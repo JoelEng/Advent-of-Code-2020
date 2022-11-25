@@ -2,7 +2,7 @@
 
 My solutions for Advent of Code 2020.
 
-Project structure and setup kindly stolen from [AxlLind](https://github.com/AxlLind).
+Project structure and setup kindly stolen from [AxlLind](https://github.com/AxlLind) and expanded upon.
 
 ## Usage
 
