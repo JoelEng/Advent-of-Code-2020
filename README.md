@@ -13,3 +13,5 @@ cargo run --release             # run all days
 ./get <DAY>                     # fetch input and create .rs file
                                 # input_examples/<DAY>.in has to be filled in manually
 ```
+
+The token AOC_SESSION needs to be added to a .env file before use.

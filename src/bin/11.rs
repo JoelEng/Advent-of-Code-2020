@@ -18,16 +18,13 @@ const DIRS: [(i32, i32); 8] = [
 #[aoc::main(11)]
 fn main(input: &str) -> (u32, u32) {
     let seats: Seats = input.lines().map(|s| s.chars().collect()).collect();
+    (iter(&seats, false), iter(&seats, true))
+}
 
-    let adjacents_p1 = find_adjacents(&seats, false);
-    let seats_p1 = round(seats.clone(), false, &adjacents_p1);
-    let p1: u32 = sum_seats(seats_p1);
-
-    let adjacents_p2 = find_adjacents(&seats, true);
+fn iter(seats: &Seats, p2: bool) -> u32 {
+    let adjacents_p2 = find_adjacents(&seats, p2);
     let seats_p2 = round(seats, true, &adjacents_p2);
-    let p2: u32 = sum_seats(seats_p2);
-
-    (p1, p2)
+    sum_seats(seats_p2)
 }
 
 fn sum_seats(s: Seats) -> u32 {
@@ -36,7 +33,7 @@ fn sum_seats(s: Seats) -> u32 {
         .sum()
 }
 
-fn round(seats: Seats, p2: bool, adjacents: &Adjacents) -> Seats {
+fn round(seats: &Seats, p2: bool, adjacents: &Adjacents) -> Seats {
     let mut new_seats: Seats = seats.clone();
     for i in 0..seats.len() {
         for j in 0..seats[0].len() {
@@ -58,10 +55,10 @@ fn round(seats: Seats, p2: bool, adjacents: &Adjacents) -> Seats {
             };
         }
     }
-    if new_seats == seats {
+    if new_seats == *seats {
         return new_seats;
     } else {
-        return round(new_seats, p2, adjacents);
+        return round(&new_seats, p2, adjacents);
     }
 }
 
